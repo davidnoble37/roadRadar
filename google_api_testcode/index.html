@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+  </head>
+
+  <body>
+    <h3>My Google Maps Demo</h3>
+
+    <div id="map"></div>
+
+    <script>
+      function initMap() {
+
+        // default location that map centers on at start-up
+        var la_default = {lat: 34.0073707, lng: -118.3511962};
+
+        // initial test point for first marker
+        var general_assembly = {lat: 34.0129665, lng: -118.49521019999997}
+
+        // an array of locations that i'm trying to loop through
+        var incident_locations = [ {lat: 34.0129665, lng: -118.49521019999997}, {lat: 34.0129665, lng: -118.49521019999997}, {lat: 34.0129665, lng: -118.49521019999997}, {lat: 34.0129665, lng: -118.49521019999997} ]
+
+        // sets up map with intial centered location and zoom level
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: la_default
+        });
+
+        // adds single marker to map
+        var marker = new google.maps.Marker({
+          position: general_assembly,
+          map: map
+        });
+
+        // trying to loop through array of markers to add all locations to map
+        var markers = []
+        incident_locations.forEach(function(loc, i){
+          markers[i] = new google.maps.Marker({
+            position: incident_locations[i],
+            map: map
+        })
+        console.log(markers)
+
+      }
+
+
+
+
+
+    </script>
+
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap">
+    </script>
+
+  </body>
+</html>
