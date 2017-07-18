@@ -1,41 +1,68 @@
-var express      = require('express');
-var app          = express();
-var mongoose     = require('mongoose');
-var passport     = require('passport');
-var flash        = require('connect-flash');
-var ejsLayouts   = require("express-ejs-layouts");
-var morgan       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
-var port = 3000;
+const
+  express = require('express'),
+  app = express(),
+  ejs = require('ejs'),
+  ejsLayouts = require('express-ejs-layouts'),
+  mongoose = require('mongoose'),
+  flash = require('connect-flash'),
+  logger = require('morgan'),
+  cookieParser = require('cookie-parser'),
+  bodyParser = require('body-parser'),
+  session = require('express-session'),
+  MongoDBStore = require('connect-mongodb-session')(session),
+  passport = require('passport'),
 
-mongoose.connect('mongodb://localhost/local-authentication-with-passport');
+  passportConfig = require('./config/passport.js'),
+  userRoutes = require('./routes/users.js')
 
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(bodyParser());
 
-app.set('view engine', 'ejs');
-app.use(ejsLayouts);
-app.set("views","./views");
-app.use(express.static(__dirname + '/public'));
+//environment port
+const
+  port = process.env.PORT || 3000,
+  mongoConnectionString = process.env.MONGODB_URL || 'mongodb://localhost/roadRadar'
 
-// app.use(session({ secret: 'WDI-GENERAL-ASSEMBLY-EXPRESS' }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+//mongoose connection
+mongoose.connect(mongoConnectionString, (err) => {
+  console.log(err || 'Connected to MongoDB (roadRadar)')
+})
 
-require('./config/passport')(passport);
+//will store session information as a 'sessions' collection in Mongo
+const store = new MongoDBStore({
+  uri: mongoConnectionString,
+  collection: 'sessions'
+})
 
-app.use(function (req, res, next) {
-  global.user = req.user;
-  next()
-});
+//middleware
+app.use(logger('dev'))
+app.use(cookieParser())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
+app.use(flash())
 
-var routes = require('./config/routes');
-app.use(routes);
+//ejs configuration
+app.set('view engine', 'ejs')
+app.use(ejsLayouts)
 
-app.listen(port);
+//session + pasport
+app.use(session({
+  secret: 'boomchakalaka',
+  cookie: {maxAge: 60000000},
+  resave: true,
+  saveUninitialized: false,
+  store: store
+}))
 
-//test
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+//root route
+app.get('/', (req,res) => {
+  res.render('index')
+})
+
+app.use('/', userRoutes)
+
+app.listen(port, (err) => {
+  console.log(err || 'Server running on port' + port)
+})

@@ -3,10 +3,13 @@
 
   <head>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap">
     </script>
     <script src="gmaps.js"></script>
+
+
 
     <style>
       #map {
@@ -20,16 +23,23 @@
   <body>
     <h3>My Google Maps Demo</h3>
 
+    <div class="input">
+      <input type="text" id="address" name="address">
+      <input type="submit" class="btn" id="submit" value="Add Marker">
+    </div>
+
     <div id="map"></div>
 
     <script>
+
+      // default location that map centers on at start-up
+      var la_default = {lat: 34.0073707, lng: -118.3511962};
+
+      // an array of locations that i'm trying to loop through
+      var incident_locations = [ {lat: 34.0129665, lng: -118.49521019999997}, {lat: 34.0581136, lng: -118.41948809999997}, {lat: 34.072164, lng: -118.35838100000001}, {lat: 34.0544694, lng: -118.2505582}, {lat: 33.9415889, lng: -118.40852999999998} ]
+
+
       function initMap() {
-
-        // default location that map centers on at start-up
-        var la_default = {lat: 34.0073707, lng: -118.3511962};
-
-        // an array of locations that i'm trying to loop through
-        var incident_locations = [ {lat: 34.0129665, lng: -118.49521019999997}, {lat: 34.0581136, lng: -118.41948809999997}, {lat: 34.072164, lng: -118.35838100000001}, {lat: 34.0544694, lng: -118.2505582}, {lat: 33.9415889, lng: -118.40852999999998} ]
 
         // sets up map with intial centered location and zoom level
         var map = new GMaps({
@@ -39,7 +49,6 @@
         });
 
         // adds marker to map for to each incident location
-
         incident_locations.forEach(function(inc, i){
           map.addMarker({
             lat: inc.lat,
@@ -51,9 +60,38 @@
             }
           })
         })
-
       }
+
+      var $submit = $("#submit")
+
+      $submit.click(function() {
+        console.log( "Handler for .click() called." );
+        addressClickHandler()
+      })
+
+      function addressClickHandler (){
+
+        console.log($('#address').val())
+
+        GMaps.geocode({
+          address: $('#address').val(),
+          callback: function(results, status) {
+            if (status == 'OK') {
+              var latlng = results[0].geometry.location;
+              console.log(latlng.lat())
+              console.log(latlng.lng())
+              incident_locations.push({lat: latlng.lat(), lng: latlng.lng()})
+              console.log(incident_locations)
+              initMap()
+              // map.setCenter(latlng.lat(), latlng.lng());
+            }
+          }
+        });
+      }
+
+
     </script>
+
 
   </body>
 </html>
