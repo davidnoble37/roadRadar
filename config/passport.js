@@ -14,25 +14,25 @@ const
   })
 
   //Local signup
+  passport.use('local-signup', new LocalStrategy({
+  	usernameField: 'email',
+  	passwordField: 'password',
+  	passReqToCallback: true
+  }, (req, email, password, done) => {
+  	User.findOne({'local.email': email}, (err, user) => {
+  		if(err) return done(err)
+  		if(user) return done(null, false, req.flash('signupMessage', 'That email is taken.'))
+  		var newUser = new User()
+           newUser.local.name = req.body.name
+  		newUser.local.email = email
+  		newUser.local.password = newUser.generateHash(password)
+  		newUser.save((err) => {
+  			if(err) throw err
+  			return done(null, newUser, null)
+  		})
+  	})
+  }))
 
-passport.use('local-signup', new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password',
-  passReqToCallback: true
-}, (req, email, password, done) => {
-  User.findOne({'local.email':email}, (err, user) => {
-    if(err) return done(err)
-    if(user) return done(null, flase, req.flash('signupMessage', 'That email is taken.'))
-    var newUser = new User()
-    newUser.local.name = req.body.name
-    newUser.local.email = email
-    newUser.local.password = newUser.generateHash(password)
-    newUser.save((err) => {
-      if(err) throw err
-      return done(null, newUser, null)
-    })
-  })
-}))
 
 //Local Signin
 passport.use('local-login', new LocalStrategy({
