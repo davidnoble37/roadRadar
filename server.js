@@ -13,8 +13,10 @@ const
   passport = require('passport'),
 
   passportConfig = require('./config/passport.js'),
-  userRoutes = require('./routes/users.js'),
-  User = require('./models/user.js')
+  userRoutes = require('./routes/users.js')
+  User = require('./models/User')
+
+  // var User = mongoose.model('User')
 
 //environment port
 const
@@ -76,7 +78,6 @@ app.listen(port, (err) => {
 //The POST API
 
 //GET ALL USERS
-// get all albums
 app.get('/users', (req, res) => {
   User.find({}, (err, user) => {
     if (err) return console.log(err)

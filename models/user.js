@@ -3,10 +3,10 @@ const
   bcrypt = require('bcrypt-nodejs'),
   userSchema = new mongoose.Schema({
     local: {
-      name: String,
-      email: String,
-      password: String
-    },
+        name: String,
+        email: String,
+        password: String
+     },
       posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
     }),
     User = mongoose.model('User', userSchema)
