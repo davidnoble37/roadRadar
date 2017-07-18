@@ -13,8 +13,8 @@ const
   passport = require('passport'),
 
   passportConfig = require('./config/passport.js'),
-  userRoutes = require('./routes/users.js')
-  // User = require('./models/User')
+  userRoutes = require('./routes/users.js'),
+  User = require('./models/User')
 
   // var User = mongoose.model('User')
 
@@ -80,6 +80,14 @@ app.listen(port, (err) => {
 //GET ALL USERS
 app.get('/users', (req, res) => {
   User.find({}, (err, user) => {
+    if (err) return console.log(err)
+    res.json(user)
+  })
+})
+
+//CREATE USER
+app.post('/users', (req, res) => {
+  User.create(req.body, (err, user) => {
     if (err) return console.log(err)
     res.json(user)
   })
