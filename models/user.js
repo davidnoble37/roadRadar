@@ -8,10 +8,9 @@ const
         password: String
      },
       posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
-    }),
-    User = mongoose.model('User', userSchema)
-
-module.exports = User
+    })
+    
+    module.exports  = mongoose.model('User', userSchema)
 
 userSchema.methods.generateHash = function(password){
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8))
