@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap">
-    </script>
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap"></script>
     <script src="gmaps.js"></script>
-
-
 
     <style>
       #map {
@@ -17,15 +12,34 @@
         width: 100%;
        }
     </style>
-
   </head>
 
   <body>
     <h3>My Google Maps Demo</h3>
 
     <div class="input">
-      <input type="text" id="address" name="address">
-      <input type="submit" class="btn" id="submit" value="Add Marker">
+      <h5>Input Form:</h5>
+
+      <input type="text" id="address" name="address" placeholder="address"><br>
+
+      <form id="oForm">
+        <select size="1" id="incident_types" name="types">
+          <option value=""> - Select - </option>
+          <option value="Construction">Construction</option>
+          <option value="Speed_Trap">Speed Trap</option>
+          <option value="Stalled_Car">Stalled Car</option>
+          <option value="Broken_Signal">Broken Signal</option>
+          <option value="Accident">Accident</option>
+        </select>
+      </form>
+
+      <input type="text" id="user" name="user" placeholder="user"><br>
+
+      <input type="text" id="time" name="time" placeholder="time"><br>
+
+      <input type="text" id="comments" name="comments" placeholder="comments"><br>
+
+      <input type="submit" class="btn" id="submit" value="Add Marker"><br><br>
     </div>
 
     <div id="map"></div>
@@ -36,7 +50,17 @@
       var la_default = {lat: 34.0073707, lng: -118.3511962};
 
       // an array of locations that i'm trying to loop through
-      var incident_locations = [ {lat: 34.0129665, lng: -118.49521019999997}, {lat: 34.0581136, lng: -118.41948809999997}, {lat: 34.072164, lng: -118.35838100000001}, {lat: 34.0544694, lng: -118.2505582}, {lat: 33.9415889, lng: -118.40852999999998} ]
+      var incidents = [
+        {incident_type: "broken signal", user: "Bob Jones", time: "21:13", comments: "Signal is flashing yellow in both directions. Seems dangerous.", lat: 34.0129665, lng: -118.49521019999997},
+
+        {incident_type: "road construction", user: "Gunther McClelon", time: "17:33", comments: "Right lane is closed to fix a water main. Traffic is moving, but slow.", lat: 34.0581136, lng: -118.41948809999997},
+
+        {incident_type: "accident", user: "Waneesha Parker", time: "8:15", comments: "Mini Cooper got rear ended by a dump truck.", lat: 34.072164, lng: -118.35838100000001},
+
+        {incident_type: "speed trap", user: "Bruce Jenner", time: "18:46", comments: "Police car is hiding in the bushes", lat: 34.0544694, lng: -118.2505582},
+
+        {incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane", lat: 33.9415889, lng: -118.40852999999998}
+      ]
 
 
       function initMap() {
@@ -49,14 +73,20 @@
         });
 
         // adds marker to map for to each incident location
-        incident_locations.forEach(function(inc, i){
+        incidents.forEach(function(inc, i){
           map.addMarker({
             lat: inc.lat,
             lng: inc.lng,
             title: i,
             map: map,
             infoWindow: {
-              content: `<p>This is the description of incident # ${i + 1}</p>`
+              content: `<p>This is the description of incident # ${i + 1}: <br><br>
+              Type: ${incidents[i].incident_type} <br><br>
+              User: ${incidents[i].user} <br><br>
+              Time: ${incidents[i].time} <br><br>
+              Additional Info: ${incidents[i].comments} <br><br>
+              Upvote Downvote Delete
+              </p>`
             }
           })
         })
@@ -71,7 +101,18 @@
 
       function addressClickHandler (){
 
-        console.log($('#address').val())
+        var incident_form = $("#incident_types")
+        var dropdown = document.querySelector('#oForm').elements["types"]
+        var selected_index = dropdown.selectedIndex
+
+        if(selected_index > 0){
+           var incident_type = dropdown.options[selected_index].text
+        }
+
+        // var incident_type = $('#incident_type').val()
+        var user = $('#user').val()
+        var time = $('#time').val()
+        var comments = $('#comments').val()
 
         GMaps.geocode({
           address: $('#address').val(),
@@ -80,18 +121,16 @@
               var latlng = results[0].geometry.location;
               console.log(latlng.lat())
               console.log(latlng.lng())
-              incident_locations.push({lat: latlng.lat(), lng: latlng.lng()})
-              console.log(incident_locations)
+              incidents.push({incident_type: incident_type, user: user, time: time, comments: comments, lat: latlng.lat(), lng: latlng.lng()})
+              console.log(incidents)
               initMap()
               // map.setCenter(latlng.lat(), latlng.lng());
+              // incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane"
             }
           }
         });
       }
 
-
     </script>
-
-
   </body>
 </html>
