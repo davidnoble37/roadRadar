@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap"></script>
+    <script src="gmaps.js"></script>
+
+    <style>
+
+    </style>
+  </head>
+
+  <body>
+    <h3>My Input Form Demo</h3>
+
+    <div class="input">
+      <h5>Input Form:</h5>
+
+      <input type="text" id="address" name="address" placeholder="address"><br>
+
+      <form id="oForm">
+        <select size="1" id="incident_types" name="types">
+          <option value=""> - Select - </option>
+          <option value="Construction">Construction</option>
+          <option value="Speed_Trap">Speed Trap</option>
+          <option value="Stalled_Car">Stalled Car</option>
+          <option value="Broken_Signal">Broken Signal</option>
+          <option value="Accident">Accident</option>
+        </select>
+      </form>
+
+      <input type="text" id="user" name="user" placeholder="user"><br>
+
+      <input type="text" id="time" name="time" placeholder="time"><br>
+
+      <input type="text" id="comments" name="comments" placeholder="comments"><br>
+
+      <input type="submit" class="btn" id="submit" value="Add Marker"><br><br>
+    </div>
+
+
+    <script>
+
+
+      // an array of locations that i'm trying to loop through
+      var incidents = [
+        {incident_type: "broken signal", user: "Bob Jones", time: "21:13", comments: "Signal is flashing yellow in both directions. Seems dangerous.", lat: 34.0129665, lng: -118.49521019999997},
+      ]
+
+      var $submit = $("#submit")
+
+      $submit.click(function() {
+        console.log( "Handler for .click() called." );
+        addressClickHandler()
+      })
+
+      function addressClickHandler (){
+
+        var incident_form = $("#incident_types")
+        var dropdown = document.querySelector('#oForm').elements["types"]
+        var selected_index = dropdown.selectedIndex
+
+        if(selected_index > 0){
+           var incident_type = dropdown.options[selected_index].text
+        }
+
+        // var incident_type = $('#incident_type').val()
+        var user = $('#user').val()
+        var time = $('#time').val()
+        var comments = $('#comments').val()
+
+        GMaps.geocode({
+          address: $('#address').val(),
+          callback: function(results, status) {
+            if (status == 'OK') {
+              var latlng = results[0].geometry.location;
+              console.log(latlng.lat())
+              console.log(latlng.lng())
+              incidents.push({incident_type: incident_type, user: user, time: time, comments: comments, lat: latlng.lat(), lng: latlng.lng()})
+              console.log(incidents)
+              initMap()
+              // map.setCenter(latlng.lat(), latlng.lng());
+              // incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane"
+            }
+          }
+        });
+      }
+
+    </script>
+  </body>
+</html>
