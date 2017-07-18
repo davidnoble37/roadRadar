@@ -1,9 +1,9 @@
 const
   mongoose = require('mongoose'),
   postSchema = new mongoose.Schema({
-      user: {String},
-      address: {String, required: true},
-      incident: {String, required: true},
+      user: User.name,
+      address: {type: String, required: true},
+      incident: {type: String, required: true},
       {timestamps: true},
       comment: Text
     }),
