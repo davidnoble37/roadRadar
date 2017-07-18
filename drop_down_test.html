@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Testing Forms </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+  <form id="oForm">
+    <select size="1" id="incident_types" name="types">
+      <option value=""> - Select - </option>
+      <option value="Construction">Construction</option>
+      <option value="Speed_Trap">Speed Trap</option>
+      <option value="Stalled_Car">Stalled Car</option>
+      <option value="Broken_Signal">Broken Signal</option>
+      <option value="Accident">Accident</option>
+    </select>
+  </form>
+
+    <div id="test_text">Testing</div>
+
+    <script type="text/javascript">
+
+      var incident_form = $("#incident_types")
+
+      var selected_index = oForm.elements["types"].selectedIndex
+
+  
+      if(selected_index > 0){
+         var selected_option_value = oForm.elements["types"].options[selected_index].value
+         var selected_option_text = oForm.elements["types"].options[selected_index].text
+         console.log(selected_option_text)
+         console.log(selected_option_value)
+      } else {
+        //  alert('Please select an incident category from the drop down list')
+      }
+
+
+      $('#test_text').text(selected_option_text)
+
+    </script>
+  </body>
+</html>
