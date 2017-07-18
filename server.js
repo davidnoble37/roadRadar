@@ -14,7 +14,7 @@ const
 
   passportConfig = require('./config/passport.js'),
   userRoutes = require('./routes/users.js')
-  User = require('./models/User')
+  // User = require('./models/User')
 
   // var User = mongoose.model('User')
 
