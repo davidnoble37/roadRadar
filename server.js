@@ -54,16 +54,15 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
-// 
-// app.use('/', userRoutes)
-// app.listen(port, (err) => {
-//   console.log(err || 'Server running on port' + port)
-// })
+
 
 //root route
 app.get('/', (req,res) => {
   res.render('index')
 })
+
+app.use('/', userRoutes)
+
 app.listen(port, (err) => {
   console.log(err || 'Server running on port' + port)
 })
