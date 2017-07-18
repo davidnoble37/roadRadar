@@ -55,6 +55,12 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use((req, res, next) => {
+  app.locals.currentUser = req.user //current User is avail in ALL views
+  app.locals.loggedIn = !!req.user //boolean loggedIn available in ALL views
+  next()
+})
+
 
 //root route
 app.get('/', (req,res) => {
