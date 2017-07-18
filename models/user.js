@@ -6,7 +6,8 @@ const
       name: String,
       email: String,
       password: String
-    }
+    },
+      posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
   })
 
 userSchema.methods.generateHash = function(password){
