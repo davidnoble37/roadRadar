@@ -1,13 +1,22 @@
+
 const
+  // Post = require('./Post'),
   mongoose = require('mongoose'),
   bcrypt = require('bcrypt-nodejs'),
+  postSchema = new mongoose.Schema({
+        lat: {type: Number, required: true},
+        lng: {type: Number, required: true},
+      incident: {type: String, required: true},
+      comment: String
+    }, {timestamps: true}),
   userSchema = new mongoose.Schema({
     local: {
-      name: String,
-      email: String,
-      password: String
-    }
-  })
+        name: String,
+        email: String,
+        password: String
+     },
+      posts: [postSchema]
+    })
 
 userSchema.methods.generateHash = function(password){
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8))
@@ -17,6 +26,4 @@ userSchema.methods.validPassword = function(password){
   return bcrypt.compareSync(password, this.local.password)
 }
 
-const User = mongoose.model('User', userSchema)
-
-module.exports = User
+module.exports = mongoose.model('User', userSchema);
