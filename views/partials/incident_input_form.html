@@ -17,8 +17,6 @@
     <div class="input">
       <h5>Input Form:</h5>
 
-      <input type="text" id="address" name="address" placeholder="address"><br>
-
       <form id="oForm">
         <select size="1" id="incident_types" name="types">
           <option value=""> - Select - </option>
@@ -30,9 +28,7 @@
         </select>
       </form>
 
-      <input type="text" id="user" name="user" placeholder="user"><br>
-
-      <input type="text" id="time" name="time" placeholder="time"><br>
+      <input type="text" id="address" name="address" placeholder="address"><br>
 
       <input type="text" id="comments" name="comments" placeholder="comments"><br>
 
@@ -41,7 +37,6 @@
 
 
     <script>
-
 
       // an array of locations that i'm trying to loop through
       var incidents = [
@@ -66,25 +61,51 @@
         }
 
         // var incident_type = $('#incident_type').val()
-        var user = $('#user').val()
-        var time = $('#time').val()
         var comments = $('#comments').val()
+
+        var latlng
 
         GMaps.geocode({
           address: $('#address').val(),
           callback: function(results, status) {
             if (status == 'OK') {
-              var latlng = results[0].geometry.location;
+              latlng = results[0].geometry.location;
               console.log(latlng.lat())
               console.log(latlng.lng())
-              incidents.push({incident_type: incident_type, user: user, time: time, comments: comments, lat: latlng.lat(), lng: latlng.lng()})
-              console.log(incidents)
-              initMap()
-              // map.setCenter(latlng.lat(), latlng.lng());
-              // incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane"
+              // var coord = {lat: latlng.lat(), lng: latlng.lng()}
+              // return coord
             }
           }
-        });
+        })
+
+
+      setTimeout(function(){
+        console.log(latlng)
+
+        var incident_params = {
+          "incident_type": incident_type,
+          "comments": comments,
+          "lat": latlng.lat(),
+          "lng": latlng.lng()
+        }
+
+        console.log(incident_params)
+
+        function cb(d) {
+          console.log(d)
+        }
+
+        $.ajax({
+          type: 'Post',
+          data: incident_params,
+          url: '/users/:id/posts',
+          dataType: 'JSON'
+        }).done(cb)
+
+        // initMap()
+      }
+
+      ,200)
       }
 
     </script>
