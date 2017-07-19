@@ -102,18 +102,20 @@ app.post('/users', (req, res) => {
 })
 
 //GET ALL POSTS FROM USER
-app.get('/users/:id/posts', (req, res) => {
-  User.findById(req.params.id, (err, user) => {
+app.get('/users/posts', (req, res) => {
+  User.findById(req.user._id, (err, user) => {
     if (err) return console.log(err)
     res.json(user.posts)
   })
 })
 
 //CREATE A NEW POST FOR SPECIFIC USER
-app.post('/users/:id/posts', (req, res) => {
-  User.findById(req.params.id, (err,user) => {
+app.post('/users/posts', (req, res) => {
+    console.log("the req.user is : " , req.user)
+  User.findById(req.user._id, (err,user) => {
     if (err) return console.log(err)
     console.log("the req.body is : " , req.body)
+    console.log("our user is : ", user)
     user.posts.push(req.body)
     user.save((err) => {
       res.json(user)
