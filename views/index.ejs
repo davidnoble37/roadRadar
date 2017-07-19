@@ -69,6 +69,8 @@
 
   <script>
 
+
+
     // default location that map centers on at start-up
     var la_default = {lat: 34.0073707, lng: -118.3511962};
 
@@ -155,41 +157,34 @@
             latlng = results[0].geometry.location;
             console.log(latlng.lat())
             console.log(latlng.lng())
-            // var coord = {lat: latlng.lat(), lng: latlng.lng()}
-            // return coord
+            console.log(latlng)
+
+             incident_params = {
+              "incident": incident_type,
+              "comment": comments,
+              "lat": latlng.lat(),
+              "lng": latlng.lng()
+            }
+
+            console.log(incident_params)
+
+             requestSettings = {
+              method: 'Post',
+              url: '/users/posts',
+              data: JSON.stringify(incident_params),
+              contentType: 'application/json'
+            }
+
+            function cb(d) {
+              console.log(d)
+              initMap()
+
+            }
+          console.log(requestSettings)
+            $.ajax(requestSettings).done(cb)
           }
         }
       })
-
-    setTimeout(function(){
-      console.log(latlng)
-
-      var incident_params = {
-        "incident_type": incident_type,
-        "comments": comments,
-        "lat": latlng.lat(),
-        "lng": latlng.lng()
-      }
-
-      console.log(incident_params)
-
-      var requestSettings = {
-        method: 'Post',
-        data: incident_params,
-        url: '/users/' + ???? + '/posts',
-        contentType: 'application/json'
-      }
-
-      function cb(d) {
-        console.log(d)
-        initMap()
-      }
-
-      $.ajax({requestSettings}).done(cb)
-
-    }
-
-    ,500)
     }
 
   </script>
