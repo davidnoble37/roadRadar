@@ -1,16 +1,21 @@
 
 const
-  Post = require('./Post'),
+  // Post = require('./Post'),
   mongoose = require('mongoose'),
   bcrypt = require('bcrypt-nodejs'),
+  postSchema = new mongoose.Schema({
+        lat: {type: Number, required: true},
+        lng: {type: Number, required: true},
+      incident: {type: String, required: true},
+      comment: String
+    }, {timestamps: true}),
   userSchema = new mongoose.Schema({
     local: {
         name: String,
         email: String,
         password: String
      },
-      posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
-
+      posts: [postSchema]
     })
 
 userSchema.methods.generateHash = function(password){

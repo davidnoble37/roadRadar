@@ -5,7 +5,7 @@ const
       address: {type: String, required: true},
       incident: {type: String, required: true},
       comment: String,
-      {timestamps: true}
+      time : { type : Date, default: Date.now }
     }),
   Post = mongoose.model('Post', postSchema)
 

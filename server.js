@@ -15,6 +15,7 @@ const
   passportConfig = require('./config/passport.js'),
   userRoutes = require('./routes/users.js'),
   User = require('./models/User')
+  Post = require('./models/Post')
 
   // var User = mongoose.model('User')
 
@@ -101,7 +102,7 @@ app.get('/users/:id/posts', (req, res) => {
   })
 })
 
-//CREATE A NEW POST FOR SPECIFI USER
+//CREATE A NEW POST FOR SPECIFIC USER
 app.post('/users/:id/posts', (req, res) => {
   User.findById(req.params.id, (err,user) => {
     if (err) return console.log(err)
