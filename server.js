@@ -66,6 +66,11 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(function (req, res, next) {
+  res.locals.login = req.isAuthenticated()
+  next()
+})
+
 
 //root route
 app.get('/', (req,res) => {

@@ -33,8 +33,12 @@
   <body>
     <header>
         <h1> <span class = 'fa fa-lock'></span>Road Radar</h1>
+        <% if(login) { %>
+        <a href= '/logout'>Logout </a>
+        <% } else {  %>
         <a href= '/login'>Login </a>
         <a href= '/signup'>Signup </a>
+        <% }  %>
         <hr>
     </header>
 
@@ -56,7 +60,9 @@
     </div>
 
     <div id = 'map_container'>
+      <% if(login) { %>
       <button id="post_button"> Post </button>
+      <% } %>
       <div id="map"></div>
     </div>
 
