@@ -113,6 +113,7 @@ app.get('/users/:id/posts', (req, res) => {
 app.post('/users/:id/posts', (req, res) => {
   User.findById(req.params.id, (err,user) => {
     if (err) return console.log(err)
+    console.log("the req.body is : " , req.body)
     user.posts.push(req.body)
     user.save((err) => {
       res.json(user)
