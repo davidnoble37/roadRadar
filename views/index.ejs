@@ -111,7 +111,8 @@
     var $submit = $("#submit")
     var $post_button = $("#post_button")
 
-    $submit.click(function() {
+    $submit.click(function(event) {
+      event.preventDefault();
       console.log("submit button clicked!")
       $('#form_container').css('display', 'none')
       $('#map_container').css('display', 'block')
@@ -169,7 +170,7 @@
       var requestSettings = {
         method: 'Post',
         data: incident_params,
-        url: '/users/:id/posts',
+        url: '/users/' + ???? + '/posts',
         contentType: 'application/json'
       }
 
