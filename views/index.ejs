@@ -63,22 +63,21 @@
 
   <script>
 
-    // default location that map centers on at start-up
-    var la_default = {lat: 34.0073707, lng: -118.3511962};
+  // default location that map centers on at start-up
+     var la_default = {lat: 34.0073707, lng: -118.3511962};
 
-    // an array of locations that i'm trying to loop through
-    var incidents = [
-      {incident_type: "broken signal", user: "Bob Jones", time: "21:13", comments: "Signal is flashing yellow in both directions. Seems dangerous.", lat: 34.0129665, lng: -118.49521019999997},
+     // an array of locations that i'm trying to loop through
+     var incidents = [
+       {incident_type: "broken signal", user: "Bob Jones", time: "21:13", comments: "Signal is flashing yellow in both directions. Seems dangerous.", lat: 34.0129665, lng: -118.49521019999997},
 
-      {incident_type: "road construction", user: "Gunther McClelon", time: "17:33", comments: "Right lane is closed to fix a water main. Traffic is moving, but slow.", lat: 34.0581136, lng: -118.41948809999997},
+       {incident_type: "road construction", user: "Gunther McClelon", time: "17:33", comments: "Right lane is closed to fix a water main. Traffic is moving, but slow.", lat: 34.0581136, lng: -118.41948809999997},
 
-      {incident_type: "accident", user: "Waneesha Parker", time: "8:15", comments: "Mini Cooper got rear ended by a dump truck.", lat: 34.072164, lng: -118.35838100000001},
+       {incident_type: "accident", user: "Waneesha Parker", time: "8:15", comments: "Mini Cooper got rear ended by a dump truck.", lat: 34.072164, lng: -118.35838100000001},
 
-      {incident_type: "speed trap", user: "Bruce Jenner", time: "18:46", comments: "Police car is hiding in the bushes", lat: 34.0544694, lng: -118.2505582},
+       {incident_type: "speed trap", user: "Bruce Jenner", time: "18:46", comments: "Police car is hiding in the bushes", lat: 34.0544694, lng: -118.2505582},
 
-      {incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane", lat: 33.9415889, lng: -118.40852999999998}
-    ]
-
+       {incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane", lat: 33.9415889, lng: -118.40852999999998}
+     ]
     function initMap() {
 
       // sets up map with intial centered location and zoom level
