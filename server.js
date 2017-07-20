@@ -139,15 +139,11 @@ app.get('/users/:id/posts/:post_id', (req, res) => {
   })
 })
 
-// DELETE A POST FROM A USER
-app.delete('/users/:id/posts/:post_id', (req, res) => {
-  User.findById(req.params.id, (err,user) => {
+//REMOVE A USER'S POST FROM DISPLAY
+app.patch('/users/remove', (req, res) => {
+  User.findById(req.params.id, (err,user) =>{
+    if (err) return console.log(err)
     var post = user.posts.id(req.params.post_id)
-    if (post !== null) post.remove()
-      user.save((err) => {
-      if (err)  return console.log(err)
-      res.send(user)
-   })
-  res.send(user)
+    res.json(post)
   })
 })

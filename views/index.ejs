@@ -147,9 +147,11 @@
       <div id="map"></div>
     </div>
 
+<button class='remove' name="button">delete</button>
+
+
+
   <script>
-
-
 
     // default location that map centers on at start-up
     var la_default = {lat: 34.0073707, lng: -118.3511962};
@@ -204,24 +206,48 @@
             markerPath = 'images/red_markerA.png'
           }
 
-if ( (Date.now()/36000000)-(inc.post.timestamp)/3600000) < 24 ) {
-         map.addMarker({
-           lat: inc.post.lat,
-           lng: inc.post.lng,
-           title: i,
-           icon: markerPath,
-           map: map,
-           infoWindow: {
-             content: `<p>This is the description of incident # ${i + 1}: <br><br>
-             Type: ${inc.post.incident} <br><br>
-             User: ${inc.user} <br><br>
-             Time: Posted ${Math.floor((Date.now() - inc.post.timestamp)/60000)} min ago <br><br>
-             Additional Info: ${inc.post.comment} <br><br>
-             Upvote Downvote Delete
-             </p>`
-           }
-         })
-    }
+  if (inc.post.active){
+    if ( ((Date.now()/3600000)-(inc.post.timestamp/3600000)) < 12) {
+
+            // console.log((Date.now()/3600000))
+            // console.log((inc.post.timestamp/3600000))
+
+             map.addMarker({
+               lat: inc.post.lat,
+               lng: inc.post.lng,
+               title: i,
+               icon: markerPath,
+               map: map,
+               infoWindow: {
+                 content: `<p>This is the description of incident # ${i + 1}: <br><br>
+                 Type: ${inc.post.incident} <br><br>
+                 User: ${inc.user} <br><br>
+                 Time: Posted ${Math.floor((Date.now() - inc.post.timestamp)/60000)} min ago <br><br>
+                 Additional Info: ${inc.post.comment} <br><br>
+                 Upvote Downvote<br><br>
+                 <button class="remove">Remove post</button>
+                 </p>`
+              }
+             })
+
+             $('#map_container').delegate('.remove', 'click', function(){
+               console.log('remove button clicked!')
+              rs =   {
+                         url: '/users/remove',
+                         method: 'patch',
+                         data: '{"active": "false"}',
+                         contentType: 'application/json'
+                      }
+
+              function cb(d){
+                         console.log(d)
+                      }
+
+              $.ajax(rs).done(cb)
+             })
+
+        }
+      }
 
        })
 
@@ -326,6 +352,10 @@ if ( (Date.now()/36000000)-(inc.post.timestamp)/3600000) < 24 ) {
         }
       })
     }
+
+    //Add event listener to Remove Post Button
+
+
 
   </script>
   </body>
