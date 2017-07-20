@@ -89,23 +89,6 @@
 
     function initMap() {
 
-    //Grab all user ids
-      var user_list = []
-      var requestSettings = {
-       method: 'Get',
-       url: '/users',
-       }
-
-     function cb(data) {
-       console.log(data)
-        data.forEach(function(user){
-          user_list.push(user._id)
-        })
-        console.log(user_list)
-     }
-      console.log(requestSettings)
-     $.ajax(requestSettings).done(cb)
-
       // sets up map with intial centered location and zoom level
       var map = new GMaps({
         div: "#map",
@@ -113,24 +96,66 @@
         center: la_default
       });
 
+
+    //Grab all user ids
+      incident_list = []
+      var requestSettings = {
+       method: 'Get',
+       url: '/users/posts',
+       }
+
+     function cb(data) {
+        incident_list = data
+       console.log(incident_list)
+
+       incident_list.forEach(function(inc, i){
+         console.log(inc, i)
+         map.addMarker({
+           lat: inc.lat,
+           lng: inc.lng,
+           title: i,
+           map: map,
+           infoWindow: {
+             content: `<p>This is the description of incident # ${i + 1}: <br><br>
+             Type: ${inc.incident} <br><br>
+             User: ${inc._id} <br><br>
+             Time: ${inc.time} <br><br>
+             Additional Info: ${inc.comment} <br><br>
+             Upvote Downvote Delete
+             </p>`
+           }
+         })
+       })
+
+        }
+
+     $.ajax(requestSettings).done(cb)
+
+    // //Grab all incidents and put into an array
+    //   var incident_list = []
+    //
+    //   user_list.forEach(function(user_id, i){
+    //     var requestSettings = {
+    //      method: 'Get',
+    //      url: '/users/user_id/posts',
+    //      }
+    //
+    //    function cb(data) {
+    //      console.log(data)
+    //       data.forEach(function(user){
+    //         user_list.push(user._id)
+    //       })
+    //       console.log(user_list)
+    //    }
+    //     console.log(requestSettings)
+    //    $.ajax(requestSettings).done(cb)
+      //
+      // })
+
+
+
       // adds marker to map for to each incident location
-      incidents.forEach(function(inc, i){
-        map.addMarker({
-          lat: inc.lat,
-          lng: inc.lng,
-          title: i,
-          map: map,
-          infoWindow: {
-            content: `<p>This is the description of incident # ${i + 1}: <br><br>
-            Type: ${incidents[i].incident_type} <br><br>
-            User: ${incidents[i].user} <br><br>
-            Time: ${incidents[i].time} <br><br>
-            Additional Info: ${incidents[i].comments} <br><br>
-            Upvote Downvote Delete
-            </p>`
-          }
-        })
-      })
+
     }
 
     var $submit = $("#submit")
