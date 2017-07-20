@@ -27,20 +27,45 @@
         display: none;
       }
 
+      .topnav {
+        background-color: #333;
+        overflow: hidden;
+        font-family: 'Oswald', sans-serif;
+      }
+
+      .rightnav{
+        float: right;
+      }
+
+      .topnav a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover{
+        background-color: #005f5f;
+      }
+
+
+
     </style>
   </head>
 
   <body>
-    <header>
-        <h1> <span class = 'fa fa-lock'></span>Road Radar</h1>
+    <div class = 'topnav'>
+        <a href= '/'> Road Radar </a>
         <% if(login) { %>
         <a href= '/logout'>Logout </a>
         <% } else {  %>
         <a href= '/login'>Login </a>
         <a href= '/signup'>Signup </a>
         <% }  %>
-        <hr>
-    </header>
+    </div>
 
     <div id="form_container">
       <h5>Input Form:</h5>
