@@ -157,10 +157,12 @@
           <option value="Broken_Signal">Broken Signal</option>
           <option value="Accident">Accident</option>
         </select>
+        <br>
+
+        <input type="text" id="address" name="address" placeholder="address"><br>
+        <input type="text" id="comments" name="comments" placeholder="comments"><br>
+        <input type="submit" class="btn" id="submit" value="Add Marker"><br><br>
       </form>
-      <input type="text" id="address" name="address" placeholder="address"><br>
-      <input type="text" id="comments" name="comments" placeholder="comments"><br>
-      <input type="submit" class="btn" id="submit" value="Add Marker"><br><br>
     </div>
 
     <div id = 'map_container'>
@@ -172,8 +174,6 @@
 
 
   <script>
-
-
 
     function initMap() {
 
@@ -305,7 +305,7 @@
               "lng": latlng.lng()
             }
 
-            console.log(incident_params)
+            // console.log(incident_params)
 
             const requestSettings = {
               method: 'Post',
@@ -315,11 +315,12 @@
             }
 
             function cb(d) {
-              console.log(d)
+              // console.log(d)
               initMap()
+              $('#oForm').trigger('reset')
 
             }
-          console.log(requestSettings)
+          // console.log(requestSettings)
             $.ajax(requestSettings).done(cb)
           }
         }
@@ -327,8 +328,10 @@
     }
 
   </script>
+
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap">
+  </script>
 
   </body>
 </html>
