@@ -89,6 +89,23 @@
 
     function initMap() {
 
+    //Grab all user ids
+      var user_list = []
+      var requestSettings = {
+       method: 'Get',
+       url: '/users',
+       }
+
+     function cb(data) {
+       console.log(data)
+        data.forEach(function(user){
+          user_list.push(user._id)
+        })
+        console.log(user_list)
+     }
+      console.log(requestSettings)
+     $.ajax(requestSettings).done(cb)
+
       // sets up map with intial centered location and zoom level
       var map = new GMaps({
         div: "#map",
