@@ -103,9 +103,16 @@ app.post('/users', (req, res) => {
 
 //GET ALL POSTS FROM USER
 app.get('/users/posts', (req, res) => {
-  User.findById(req.user._id, (err, user) => {
+  User.find({}, (err, users) => {
     if (err) return console.log(err)
-    res.json(user.posts)
+    var allPosts = []
+    users.forEach(function(user){
+      user.posts.forEach(function(post){
+        allPosts.push(post)
+      })
+    })
+    res.json(allPosts)
+    console.log(allPosts)
   })
 })
 

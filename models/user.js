@@ -6,8 +6,8 @@ const
   postSchema = new mongoose.Schema({
         lat: {type: Number, required: true},
         lng: {type: Number, required: true},
-      incident: {type: String, required: true},
-      comment: String
+        incident: {type: String, required: true},
+        comment: String
     }, {timestamps: true}),
   userSchema = new mongoose.Schema({
     local: {
