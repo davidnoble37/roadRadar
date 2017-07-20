@@ -124,6 +124,7 @@
             markerPath = 'images/red_markerA.png'
           }
 
+if ( (Date.now()/36000000)-(inc.post.timestamp)/3600000) < 24 ) {
          map.addMarker({
            lat: inc.post.lat,
            lng: inc.post.lng,
@@ -140,6 +141,8 @@
              </p>`
            }
          })
+    }
+
        })
 
         }
