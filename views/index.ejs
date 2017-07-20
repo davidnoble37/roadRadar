@@ -2,10 +2,8 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap"></script>
     <script src="js/gmaps.js"></script>
+
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <style>
       #map {
@@ -20,7 +18,6 @@
         height: 600px;
         width: 93%;
         display: block;
-
       }
 
       #form_container{
@@ -73,8 +70,7 @@
         border-radius: 4px;
         background-color: #333;
         color: #f2f2f2;
-    }
-
+      }
       input[type=text] {
         width: 100%;
         padding: 12px 20px;
@@ -121,7 +117,6 @@
         margin-left: 10%;
         margin-right: 50px;
       }
-
     </style>
   </head>
 
@@ -162,10 +157,12 @@
           <option value="Broken_Signal">Broken Signal</option>
           <option value="Accident">Accident</option>
         </select>
+        <br>
+
+        <input type="text" id="address" name="address" placeholder="address"><br>
+        <input type="text" id="comments" name="comments" placeholder="comments"><br>
+        <input type="submit" class="btn" id="submit" value="Add Marker"><br><br>
       </form>
-      <input type="text" id="address" name="address" placeholder="address"><br>
-      <input type="text" id="comments" name="comments" placeholder="comments"><br>
-      <input type="submit" class="btn" id="submit" value="Add Marker"><br><br>
     </div>
 
     <div id = 'map_container'>
@@ -178,23 +175,10 @@
 
   <script>
 
-    // default location that map centers on at start-up
-    var la_default = {lat: 34.0073707, lng: -118.3511962};
-
-    // an array of locations that i'm trying to loop through
-    var incidents = [
-      {incident_type: "broken signal", user: "Bob Jones", time: "21:13", comments: "Signal is flashing yellow in both directions. Seems dangerous.", lat: 34.0129665, lng: -118.49521019999997},
-
-      {incident_type: "road construction", user: "Gunther McClelon", time: "17:33", comments: "Right lane is closed to fix a water main. Traffic is moving, but slow.", lat: 34.0581136, lng: -118.41948809999997},
-
-      {incident_type: "accident", user: "Waneesha Parker", time: "8:15", comments: "Mini Cooper got rear ended by a dump truck.", lat: 34.072164, lng: -118.35838100000001},
-
-      {incident_type: "speed trap", user: "Bruce Jenner", time: "18:46", comments: "Police car is hiding in the bushes", lat: 34.0544694, lng: -118.2505582},
-
-      {incident_type: "stalled car", user: "Cornelius James III", time: "10:15", comments: "Pick-up truck is stalled in the middle lane", lat: 33.9415889, lng: -118.40852999999998}
-    ]
-
     function initMap() {
+
+      // default location that map centers on at start-up
+      var la_default = {lat: 34.0073707, lng: -118.3511962};
 
       // sets up map with intial centered location and zoom level
       var map = new GMaps({
@@ -203,8 +187,7 @@
         center: la_default
       });
 
-
-    //Grab all user ids
+      //Grab all user ids
       incident_list = []
       var requestSettings = {
        method: 'Get',
@@ -219,30 +202,27 @@
          console.log(inc, i)
           var markerPath
 
-          if(inc.incident == "Construction"){
+          if(inc.post.incident == "Construction"){
             markerPath = 'images/orange_markerC.png'
-          }else if(inc.incident == "Speed Trap"){
+          }else if(inc.post.incident == "Speed Trap"){
             markerPath = 'images/blue_markerP.png'
-          }else if(inc.incident == "Stalled Car"){
+          }else if(inc.post.incident == "Stalled Car"){
             markerPath = 'images/darkgreen_markerS.png'
-          }else if(inc.incident == "Broken Signal"){
+          }else if(inc.post.incident == "Broken Signal"){
             markerPath = 'images/yellow_markerB.png'
-          }else if(inc.incident == "Accident"){
+          }else if(inc.post.incident == "Accident"){
             markerPath = 'images/red_markerA.png'
           }
+          console.log(markerPath)
+          console.log(inc.post.incident)
 
-  if (inc.post.active){
-    if ( ((Date.now()/3600000)-(inc.post.timestamp/3600000)) < 12) {
-
-            // console.log((Date.now()/3600000))
-            // console.log((inc.post.timestamp/3600000))
+        if (inc.post.active){
+          if ( ((Date.now()/3600000)-(inc.post.timestamp/3600000)) < 12) {
 
              map.addMarker({
                lat: inc.post.lat,
                lng: inc.post.lng,
-               title: i,
                icon: markerPath,
-               map: map,
                infoWindow: {
                  content: `<p>This is the description of incident # ${i + 1}: <br><br>
                  Type: ${inc.post.incident} <br><br>
@@ -270,41 +250,12 @@
 
               $.ajax(rs).done(cb)
              })
-
-        }
+            }
+          }
+       })
       }
 
-       })
-
-        }
-
      $.ajax(requestSettings).done(cb)
-
-    // //Grab all incidents and put into an array
-    //   var incident_list = []
-    //
-    //   user_list.forEach(function(user_id, i){
-    //     var requestSettings = {
-    //      method: 'Get',
-    //      url: '/users/user_id/posts',
-    //      }
-    //
-    //    function cb(data) {
-    //      console.log(data)
-    //       data.forEach(function(user){
-    //         user_list.push(user._id)
-    //       })
-    //       console.log(user_list)
-    //    }
-    //     console.log(requestSettings)
-    //    $.ajax(requestSettings).done(cb)
-      //
-      // })
-
-
-
-      // adds marker to map for to each incident location
-
     }
 
     var $submit = $("#submit")
@@ -322,8 +273,6 @@
       console.log("post button clicked!")
       $('#form_container').css('display', 'block')
       $('#map_container').css('display', 'none')
-      // console.log( "Handler for .click() called." );
-      // addressClickHandler()
     })
 
 
@@ -337,7 +286,6 @@
          var incident_type = dropdown.options[selected_index].text
       }
 
-      // var incident_type = $('#incident_type').val()
       var comments = $('#comments').val()
       var latlng
 
@@ -357,9 +305,9 @@
               "lng": latlng.lng()
             }
 
-            console.log(incident_params)
+            // console.log(incident_params)
 
-             requestSettings = {
+            const requestSettings = {
               method: 'Post',
               url: '/users/posts',
               data: JSON.stringify(incident_params),
@@ -367,21 +315,23 @@
             }
 
             function cb(d) {
-              console.log(d)
+              // console.log(d)
               initMap()
+              $('#oForm').trigger('reset')
 
             }
-          console.log(requestSettings)
+          // console.log(requestSettings)
             $.ajax(requestSettings).done(cb)
           }
         }
       })
     }
 
-    //Add event listener to Remove Post Button
-
-
-
   </script>
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap">
+  </script>
+
   </body>
 </html>
