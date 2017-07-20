@@ -110,10 +110,25 @@
 
        incident_list.forEach(function(inc, i){
          console.log(inc, i)
+          var markerPath
+
+          if(inc.incident == "Construction"){
+            markerPath = 'images/orange_markerC.png'
+          }else if(inc.incident == "Speed Trap"){
+            markerPath = 'images/blue_markerP.png'
+          }else if(inc.incident == "Stalled Car"){
+            markerPath = 'images/darkgreen_markerS.png'
+          }else if(inc.incident == "Broken Signal"){
+            markerPath = 'images/yellow_markerB.png'
+          }else if(inc.incident == "Accident"){
+            markerPath = 'images/red_markerA.png'
+          }
+
          map.addMarker({
            lat: inc.lat,
            lng: inc.lng,
            title: i,
+           icon: markerPath,
            map: map,
            infoWindow: {
              content: `<p>This is the description of incident # ${i + 1}: <br><br>
