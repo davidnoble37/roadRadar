@@ -6,19 +6,21 @@
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkaQkkgEx6ygKgvTfTiH8uj5t9ZVQgN6E&callback=initMap"></script>
     <script src="js/gmaps.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <style>
       #map {
-        height: 500px;
+        height: 550px;
         width: 100%;
        }
 
       #map_container{
-        margin: 75px;
-        margin-top: 25px;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 35px;
         height: 600px;
-        width: 0 auto;
+        width: 93%;
         display: block;
+
       }
 
       #form_container{
@@ -31,7 +33,7 @@
       .topnav {
         background-color: #333;
         overflow: hidden;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'Ubuntu', sans-serif;
       }
 
       .rightnav{
@@ -97,9 +99,27 @@
 
       .description{
         font-size: 20px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'Ubuntu', sans-serif;
         text-align: center;
-        margin-top: 50px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+
+      img{
+        width: 150px;
+        height: auto;
+        display: inline-block;
+        float: left;
+        margin-left: 50px;
+        padding-top: 5px;
+      }
+
+      .markerKey{
+        width: 75%;
+        height: 45px;
+        background-color: #f2f2f2;
+        margin-left: 10%;
+        margin-right: 50px;
       }
 
     </style>
@@ -116,8 +136,18 @@
         <% }  %>
     </div>
 
+  <% if(!login){  %>
   <div class = 'description'>
     <p> This is an app where you can report accidents and stuff </p>
+  </div>
+  <% } %>
+
+  <div class = 'markerKey'>
+  <img src="http://i.imgur.com/IHrHMs9.png">
+  <img src="http://i.imgur.com/0sYoeMS.png">
+  <img src="http://i.imgur.com/71ivyNB.png">
+  <img src="http://i.imgur.com/YSBrOD6.png">
+  <img src="http://i.imgur.com/RkT9YKB.png">
   </div>
 
 
@@ -144,6 +174,7 @@
       <% } %>
       <div id="map"></div>
     </div>
+
 
   <script>
 
