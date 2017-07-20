@@ -215,7 +215,7 @@
                infoWindow: {
                  content: `<p>This is the description of incident # ${i + 1}: <br><br>
                  Type: ${inc.post.incident} <br><br>
-                 User: ${inc.user} <br><br>
+                 User: ${inc.user.local.name} <br><br>
                  Time: Posted ${Math.floor((Date.now() - inc.post.timestamp)/60000)} min ago <br><br>
                  Additional Info: ${inc.post.comment} <br><br>
                  Upvote Downvote<br><br>
@@ -227,14 +227,14 @@
              $('#map_container').delegate('.remove', 'click', function(){
                console.log('remove button clicked!')
               rs =   {
-                         url: '/users/remove',
-                         method: 'patch',
-                         data: '{"active": "false"}',
+                         url: '/users/inactive',
+                         method: 'post',
+                         data: JSON.stringify({myPost:inc.post, myUser:inc.user}),
                          contentType: 'application/json'
                       }
 
               function cb(d){
-                         console.log(d)
+                        //  console.log(d)
                       }
 
               $.ajax(rs).done(cb)

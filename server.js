@@ -15,9 +15,7 @@ const
   passportConfig = require('./config/passport.js'),
   userRoutes = require('./routes/users.js'),
   User = require('./models/User')
-  Post = require('./models/Post')
 
-  // var User = mongoose.model('User')
 
 //environment port
 const
@@ -108,7 +106,7 @@ app.get('/users/posts', (req, res) => {
     var allPosts = []
     users.forEach(function(user){
       user.posts.forEach(function(post){
-        allPosts.push({post: post, user: user.local.name})
+        allPosts.push({post: post, user: user})
       })
     })
     res.json(allPosts)
@@ -140,10 +138,57 @@ app.get('/users/:id/posts/:post_id', (req, res) => {
 })
 
 //REMOVE A USER'S POST FROM DISPLAY
-app.patch('/users/remove', (req, res) => {
-  User.findById(req.params.id, (err,user) =>{
-    if (err) return console.log(err)
-    var post = user.posts.id(req.params.post_id)
-    res.json(post)
+// app.post('/users/remove', (req, res) => {
+//   User.findById(req.params.id, (err,user) =>{
+//     if (err) return console.log(err)
+//     var post = user.posts.id(req.params.post_id)
+//     res.json(post)
+//   })
+// })
+
+app.post('/users/inactive', (req, res) => {
+
+  var user = new User(req.body.myUser);
+
+  console.log("MY BODYY ---------");
+  console.log(req.body)
+  console.log("------------");
+  user.posts.map( (post,i) => {
+      if (post._id == req.body.myPost._id) {
+        user.posts[i].active = false
+      }
+  })
+  console.log("---------- MY USER POSTS ---------");
+  console.log(user.posts);
+  console.log("---------- ---------");
+  user.update(user._id, {'posts':user.posts}, (err , user) => {
+    if(err) return err
+    res.redirect('/')
   })
 })
+
+  // User.findById(req.body.myUser, (err, user) => {
+  //   if (err) return console.log(err)
+  //   console.log("MY BODYY ---------");
+  //   console.log(req.body)
+  //   console.log("------------");
+  //   var myPost = req.body.myPost
+  //   myPost.active = false
+  //   user.posts.push(myPost)
+  //   user.save((err) => {
+  //     res.redirect('/')
+  //     console.log(err)
+  //   })
+  //   })
+  // })
+
+
+//   app.post('/albums/:id/songs', (req, res) => {
+//   Album.findById(req.params.id, (err,album) => {
+//     if (err) return console.log(err)
+//     album.songs.push(req.body)
+//     album.save((err) => {
+//       res.json(album)
+//     })
+//   })
+// })
