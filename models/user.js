@@ -7,7 +7,8 @@ const
         lat: {type: Number, required: true},
         lng: {type: Number, required: true},
         incident: {type: String, required: true},
-        comment: String
+        comment: String,
+        timestamp: {type:Number, default: new Date().getTime()}
     }, {timestamps: true}),
   userSchema = new mongoose.Schema({
     local: {

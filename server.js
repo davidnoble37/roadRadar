@@ -108,7 +108,7 @@ app.get('/users/posts', (req, res) => {
     var allPosts = []
     users.forEach(function(user){
       user.posts.forEach(function(post){
-        allPosts.push(post)
+        allPosts.push({post: post, user: user.local.name})
       })
     })
     res.json(allPosts)
