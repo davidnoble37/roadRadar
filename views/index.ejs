@@ -15,7 +15,7 @@
 
       #map_container{
         margin: 75px;
-        margin-top: 25px;
+        margin-top: 50px;
         height: 600px;
         width: 0 auto;
         display: block;
@@ -116,9 +116,11 @@
         <% }  %>
     </div>
 
+  <% if(!login){  %>
   <div class = 'description'>
     <p> This is an app where you can report accidents and stuff </p>
   </div>
+  <% } %>
 
 
     <div id="form_container">
