@@ -9,16 +9,18 @@
 
     <style>
       #map {
-        height: 500px;
+        height: 550px;
         width: 100%;
        }
 
       #map_container{
-        margin: 75px;
-        margin-top: 50px;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 25px;
         height: 600px;
-        width: 70%;
+        width: 93%;
         display: block;
+
       }
 
       #form_container{
@@ -102,6 +104,22 @@
         margin-top: 50px;
       }
 
+      img{
+        width: 150px;
+        height: auto;
+        display: inline-block;
+        float: left;
+        margin-left: 50px;
+      }
+
+      .markerKey{
+        width: 75%;
+        height: 40px;
+        background-color: #f2f2f2;
+        margin-left: 10%;
+        margin-right: 50px;
+      }
+
     </style>
   </head>
 
@@ -121,6 +139,14 @@
     <p> This is an app where you can report accidents and stuff </p>
   </div>
   <% } %>
+
+  <div class = 'markerKey'>
+  <img src="http://i.imgur.com/IHrHMs9.png">
+  <img src="http://i.imgur.com/0sYoeMS.png">
+  <img src="http://i.imgur.com/71ivyNB.png">
+  <img src="http://i.imgur.com/YSBrOD6.png">
+  <img src="http://i.imgur.com/RkT9YKB.png">
+  </div>
 
 
     <div id="form_container">
@@ -146,9 +172,6 @@
       <% } %>
       <div id="map"></div>
     </div>
-
-<button class='remove' name="button">delete</button>
-
 
 
   <script>
