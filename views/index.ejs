@@ -175,6 +175,8 @@
 
   <script>
 
+    const dotenv = require('dotenv').load();
+
     function initMap() {
 
       // default location that map centers on at start-up
@@ -326,7 +328,7 @@
         }
       })
     }
-
+    var apiKey = process.env.GMAPS_API_KEY
   </script>
 
   <script async defer
