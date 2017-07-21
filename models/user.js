@@ -3,7 +3,7 @@ const
   // Post = require('./Post'),
   mongoose = require('mongoose'),
   bcrypt = require('bcrypt-nodejs'),
-    postSchema = new mongoose.Schema({
+     postSchema = new mongoose.Schema({
         lat: {type: Number, required: true},
         lng: {type: Number, required: true},
         incident: {type: String, required: true},
